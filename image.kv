@@ -1,0 +1,96 @@
+#:import hex kivy.utils.get_color_from_hex
+
+WindowManager:
+    MainWindow:
+    SecondWindow:
+
+
+<Button>
+    font_size: 20
+    size_hint: (0.3,0.1)
+
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+            path: './'
+        BoxLayout:
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<MainWindow>:
+    name:"main"
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'resized.jpg'
+
+    FloatLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            text: 'Covid Diagnosis'
+            color: hex('#000000')
+            pos_hint:{"x":0, "y":0.3}
+
+
+        Button:
+            text: "Single Input!"
+            pos_hint:{"x":0.35, "y":0.5}
+            on_press: app.root.current = "second"
+
+        Button:
+            id: btnExit
+            text: "Exit"
+            pos_hint:{"x":0.35, "y":0.3}
+            on_press: app.stop()
+
+
+<SecondWindow>:
+
+    name: "second"
+    lbl: my_label
+    lbl2: my_label2
+
+    canvas.before:
+        Color:
+            rgba: hex('#76e5dc')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+    FloatLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+
+
+        Label:
+            id: my_label
+            text: 'Image Type'
+            color: hex('#000000')
+            pos_hint:{"x":0, "y":0.35}
+
+        Label:
+            id: my_label2
+            text: 'Diagnosis Type'
+            color: hex('#000000')
+            pos_hint:{"x":0, "y":0.30}
+
+        Button:
+            text: "Back"
+            pos_hint:{"x":0.15, "y":0.1}
+            on_press: app.root.current = "main"
+
+
